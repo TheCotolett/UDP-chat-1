@@ -1,4 +1,3 @@
-import javax.sound.sampled.Port;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -40,14 +39,14 @@ public class Server implements Runnable {
 
             // Creazione e stampa della stringa contenente il messaggio
             String message = new String(packet.getData(), 0, packet.getLength());
-            System.out.print("L'utente ha scritto: " + message);
+            System.out.println("L'utente ha scritto: " + message);
 
             // Reinvio della stringa al client aggiungendoci la scritta "Server: "
             // e convertendola in byte[]
             InetAddress ip = packet.getAddress();
             int port = packet.getPort();
-            message = "Server: " + message;
             data = message.getBytes(StandardCharsets.UTF_8);
+            System.out.println("DIM: " + data.length);
 
             // Creazione e invio del pacchetto al client
             packet = new DatagramPacket(data, data.length, ip, port);
@@ -56,6 +55,9 @@ public class Server implements Runnable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            //Reset data per evitare bug dimensione del pacchetto
+            data = new byte[256];
 
         }
     }

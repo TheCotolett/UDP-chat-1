@@ -32,7 +32,7 @@ public class Client {
 
         // COnvertire da byte[] a String e stampa
         String received = new String(packet.getData(), 0, packet.getLength());
-        System.out.println(received);
+        System.out.println("[Server]: "+received);
 
     }
 
@@ -45,12 +45,16 @@ public class Client {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader read = new BufferedReader(input);
         String msg = "";
-        try {
-            // Invocazione del metodo per inviare il pacchetto
-            msg = read.readLine();
-            new Client().sendPacket(msg);
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean isRunning=true;
+        while(isRunning) {
+            System.out.println("Digita messaggio: ");
+            try {
+                // Invocazione del metodo per inviare il pacchetto
+                msg = read.readLine();
+                new Client().sendPacket(msg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
